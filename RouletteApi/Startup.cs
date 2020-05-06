@@ -1,4 +1,5 @@
 using RouletteApi.Models;
+using RouletteApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,8 @@ namespace RouletteApi
 
       services.AddSingleton<IRouletteDatabaseSettings>(sp =>
         sp.GetRequiredService<IOptions<RouletteDatabaseSettings>>().Value);
+
+      services.AddSingleton<RouletteService>();
 
       services.AddControllers();
     }

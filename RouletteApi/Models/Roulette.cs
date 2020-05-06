@@ -10,6 +10,6 @@ namespace RouletteApi.Models
     public string Id { get; set; }
     public string State { get; set; }
 
-    public string Author { get; set; }
+    public bool[] Bets { get; set; }
   }
 }
