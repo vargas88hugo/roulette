@@ -60,5 +60,35 @@ namespace RouletteAPI.Data
         throw ex;
       }
     }
+
+    public async Task<Roulette> OpenRoulette(string id)
+    {
+      try
+      {
+        Roulette roulette = await this.GetRoulette(id);
+        roulette.Status = "Open";
+        await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
+        return roulette;
+      }
+      catch
+      {
+        return null;
+      }
+    }
+
+    public async Task<Roulette> CloseRoulette(string id)
+    {
+      try
+      {
+        Roulette roulette = await this.GetRoulette(id);
+        roulette.Status = "Close";
+        await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
+        return roulette;
+      }
+      catch
+      {
+        return null;
+      }
+    }
   }
 }

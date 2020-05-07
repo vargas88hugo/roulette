@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
+using System;
 
 namespace RouletteAPI.Controllers
 {
@@ -27,7 +28,7 @@ namespace RouletteAPI.Controllers
       Roulette roulette = await _rouletteRepository.GetRoulette(id);
       if (roulette == null)
       {
-        NotFound();
+        return NotFound();
       }
       return Ok(roulette);
     }
@@ -38,11 +39,39 @@ namespace RouletteAPI.Controllers
       var roulette = await _rouletteRepository.CreateRoulette();
       if (roulette == null)
       {
-        BadRequest();
+        return BadRequest();
       }
       return CreatedAtRoute("Get",
         new { id = roulette.Id.ToString() },
-        new { message = $"roulette with id {roulette.Id} has been created" });
+        new { message = $"Roulette with id {roulette.Id} has been created" });
+    }
+
+    [HttpPut("open")]
+    public async Task<IActionResult> PutOpen([FromBody] Roulette objId)
+    {
+      var roulette = await _rouletteRepository.OpenRoulette(objId.Id);
+      if (roulette == null)
+      {
+        return NotFound();
+      }
+      return CreatedAtRoute("Get",
+        new { id = roulette.Id.ToString() },
+        new { message = $"Roulette with id {roulette.Id} has been Opened" }
+      );
+    }
+
+    [HttpPut("close")]
+    public async Task<IActionResult> PutClose([FromBody] Roulette objId)
+    {
+      var roulette = await _rouletteRepository.CloseRoulette(objId.Id);
+      if (roulette == null)
+      {
+        return NotFound();
+      }
+      return CreatedAtRoute("Get",
+        new { id = roulette.Id.ToString() },
+        new { message = $"Roulette with id {roulette.Id} has been Closed" }
+      );
     }
   }
 }
