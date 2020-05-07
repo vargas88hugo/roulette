@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
-using System.Collections.Generic;
+using RouletteAPI.Helpers;
 
 namespace RouletteAPI.Controllers
 {
@@ -20,5 +21,29 @@ namespace RouletteAPI.Controllers
     [HttpGet]
     public async Task<IEnumerable<Roulette>> Get() =>
       await _rouletteRepository.GetAllRoulettes();
+
+    [HttpGet("{id:length(24)}", Name = "Get")]
+    public async Task<IActionResult> Get(string id)
+    {
+      Roulette roulette = await _rouletteRepository.GetRoulette(id);
+      if (roulette == null)
+      {
+        NotFound();
+      }
+      return Ok(roulette);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post()
+    {
+      var roulette = await _rouletteRepository.CreateRoulette();
+      if (roulette == null)
+      {
+        BadRequest();
+      }
+      return CreatedAtRoute("Get",
+        new { id = roulette.Id.ToString() },
+        new { message = $"roulette with id {roulette.Id} has been created" });
+    }
   }
 }
