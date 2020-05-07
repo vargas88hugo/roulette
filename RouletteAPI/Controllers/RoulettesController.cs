@@ -22,7 +22,7 @@ namespace RouletteAPI.Controllers
     public async Task<IEnumerable<Roulette>> Get() =>
       await _rouletteRepository.GetAllRoulettes();
 
-    [HttpGet("{id:length(24)}", Name = "Get")]
+    [HttpGet("{id:length(24)}", Name = "GetRoulette")]
     public async Task<IActionResult> Get(string id)
     {
       Roulette roulette = await _rouletteRepository.GetRoulette(id);
@@ -41,7 +41,7 @@ namespace RouletteAPI.Controllers
       {
         return BadRequest();
       }
-      return CreatedAtRoute("Get",
+      return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
         new { message = $"Roulette with id {roulette.Id} has been created" });
     }
@@ -54,7 +54,7 @@ namespace RouletteAPI.Controllers
       {
         return NotFound();
       }
-      return CreatedAtRoute("Get",
+      return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
         new { message = $"Roulette with id {roulette.Id} has been Opened" }
       );
@@ -68,7 +68,7 @@ namespace RouletteAPI.Controllers
       {
         return NotFound();
       }
-      return CreatedAtRoute("Get",
+      return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
         new { message = $"Roulette with id {roulette.Id} has been Closed" }
       );

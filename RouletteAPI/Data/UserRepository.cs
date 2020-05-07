@@ -1,5 +1,4 @@
 using System;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using RouletteAPI.Models;
@@ -24,6 +23,34 @@ namespace RouletteAPI.Data
       try
       {
         return await _context.Users.Find(_ => true).ToListAsync();
+      }
+      catch (Exception ex)
+      {
+
+        throw ex;
+      }
+    }
+
+    public async Task<User> GetUser(string id)
+    {
+      try
+      {
+        return await _context.Users.Find(user => user.Id == id)
+          .FirstOrDefaultAsync();
+      }
+      catch (Exception ex)
+      {
+
+        throw ex;
+      }
+    }
+
+    public async Task<User> CreateUser(User user)
+    {
+      try
+      {
+        await _context.Users.InsertOneAsync(user);
+        return user;
       }
       catch (Exception ex)
       {
