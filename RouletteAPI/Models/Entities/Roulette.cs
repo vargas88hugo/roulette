@@ -2,15 +2,13 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace RouletteApi.Models
+namespace RouletteAPI.Models
 {
   public class Roulette
   {
-    private List<Bet> bets;
     public Roulette()
     {
       Status = "Close";
-      List<Bet> bets = new List<Bet>();
     }
 
     [BsonId]
@@ -27,11 +25,6 @@ namespace RouletteApi.Models
     public void CloseGame()
     {
       Status = "Close";
-    }
-
-    public void AddBet(Bet bet)
-    {
-      bets.Add(bet);
     }
   }
 }
