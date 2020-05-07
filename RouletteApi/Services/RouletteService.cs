@@ -25,16 +25,30 @@ namespace RouletteApi.Services
 
     public Roulette Create()
     {
-      Roulette roulette = new Roulette();
-      _roulettes.InsertOne(roulette);
-      return roulette;
+      try
+      {
+        Roulette roulette = new Roulette();
+        _roulettes.InsertOne(roulette);
+        return roulette;
+      }
+      catch (System.Exception)
+      {
+        throw;
+      }
     }
 
     public void OpenRoulette(string id)
     {
-      Roulette roulette = this.Get(id);
-      roulette.Status = "Open";
-      _roulettes.ReplaceOne(roulette => roulette.Id == id, roulette);
+      try
+      {
+        Roulette roulette = this.Get(id);
+        roulette.Status = "Open";
+        _roulettes.ReplaceOne(roulette => roulette.Id == id, roulette);
+      }
+      catch (System.Exception)
+      {
+        throw;
+      }
     }
 
     public void CloseRoulette(string id)

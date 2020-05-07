@@ -34,29 +34,24 @@ namespace RouletteApi.Controllers
       return roulette;
     }
 
-
-
     [HttpGet("create")]
-    public string Create()
+    public ActionResult<object> CreateRoulete()
     {
       Roulette roulette = _rouletteService.Create();
 
-      return roulette.Id;
+      return Created($"/{roulette.Id}", new { Id = roulette.Id, Status = 201 });
     }
 
     [HttpPut("open/{id:length(24)}")]
-    public IActionResult OpenRoulette(string id)
+    public ActionResult<object> OpenRoulette(string id)
     {
       var roulette = _rouletteService.Get(id);
-
       if (roulette == null)
       {
         return NotFound();
       }
-
       _rouletteService.OpenRoulette(id);
-
-      return NoContent();
+      return Created($"/{id}", new { Message = "Roulette Successfully Opened", Status = 201 });
     }
 
     [HttpPut("close/{id:length(24)}")]
