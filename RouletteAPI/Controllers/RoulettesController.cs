@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
-using RouletteAPI.Helpers;
 
 namespace RouletteAPI.Controllers
 {

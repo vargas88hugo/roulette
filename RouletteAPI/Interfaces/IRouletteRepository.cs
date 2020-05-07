@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RouletteAPI.Models;
-using RouletteAPI.Helpers;
 
 namespace RouletteAPI.Interfaces
 {

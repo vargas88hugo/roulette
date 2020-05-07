@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
-using RouletteAPI.Helpers;
 
 namespace RouletteAPI.Data
 {
