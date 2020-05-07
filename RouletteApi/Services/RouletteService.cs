@@ -23,19 +23,31 @@ namespace RouletteApi.Services
     public Roulette Get(string id) =>
         _roulettes.Find<Roulette>(roulette => roulette.Id == id).FirstOrDefault();
 
-    public Roulette Create(Roulette roulette)
+    public Roulette Create()
     {
+      Roulette roulette = new Roulette();
       _roulettes.InsertOne(roulette);
       return roulette;
     }
 
-    public void Update(string id, Roulette rouletteIn) =>
-        _roulettes.ReplaceOne(roulette => roulette.Id == id, rouletteIn);
+    public void OpenRoulette(string id)
+    {
+      Roulette roulette = this.Get(id);
+      roulette.Status = "Open";
+      _roulettes.ReplaceOne(roulette => roulette.Id == id, roulette);
+    }
+
+    public void CloseRoulette(string id)
+    {
+      Roulette roulette = this.Get(id);
+      roulette.Status = "Close";
+      _roulettes.ReplaceOne(roulette => roulette.Id == id, roulette);
+    }
 
     public void Remove(Roulette rouletteIn) =>
-        _roulettes.DeleteOne(roulette => roulette.Id == rouletteIn.Id);
+      _roulettes.DeleteOne(roulette => roulette.Id == rouletteIn.Id);
 
     public void Remove(string id) =>
-        _roulettes.DeleteOne(roulette => roulette.Id == id);
+      _roulettes.DeleteOne(roulette => roulette.Id == id);
   }
 }

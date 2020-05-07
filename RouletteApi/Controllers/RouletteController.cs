@@ -2,6 +2,7 @@ using RouletteApi.Models;
 using RouletteApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System;
 
 namespace RouletteApi.Controllers
 {
@@ -33,16 +34,18 @@ namespace RouletteApi.Controllers
       return roulette;
     }
 
-    [HttpPost]
-    public ActionResult<Roulette> Create(Roulette roulette)
-    {
-      _rouletteService.Create(roulette);
 
-      return CreatedAtRoute("GetRoulette", new { id = roulette.Id.ToString() }, new { id = roulette.Id.ToString() });
+
+    [HttpGet("create")]
+    public string Create()
+    {
+      Roulette roulette = _rouletteService.Create();
+
+      return roulette.Id;
     }
 
-    [HttpPut("{id:length(24)}")]
-    public IActionResult Update(string id, Roulette rouletteIn)
+    [HttpPut("open/{id:length(24)}")]
+    public IActionResult OpenRoulette(string id)
     {
       var roulette = _rouletteService.Get(id);
 
@@ -51,7 +54,22 @@ namespace RouletteApi.Controllers
         return NotFound();
       }
 
-      _rouletteService.Update(id, rouletteIn);
+      _rouletteService.OpenRoulette(id);
+
+      return NoContent();
+    }
+
+    [HttpPut("close/{id:length(24)}")]
+    public IActionResult CloseRoulette(string id)
+    {
+      var roulette = _rouletteService.Get(id);
+
+      if (roulette == null)
+      {
+        return NotFound();
+      }
+
+      _rouletteService.CloseRoulette(id);
 
       return NoContent();
     }
@@ -70,5 +88,6 @@ namespace RouletteApi.Controllers
 
       return NoContent();
     }
+
   }
 }
