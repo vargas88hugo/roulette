@@ -1,6 +1,6 @@
 # Roulette Project
 
-Esta es una API hecha en C#, .NET CORE, MongoDB, HAProxy, Docker y JWT Authentication. Consiste en un juego de apuesta en el que uno puede crear una ruleta, abrirla, hacer apuestas con diferentes usuarios, y cerrar la ruleta para que automáticamente de un número y color ganador. Se utiliza Authorization para la mayoría de los endpoint, así que se debe utilizar JWT Bearer en el Header. Es aconsejable utilizar Postman.
+Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authentication. Consiste en un juego de apuesta en el que uno puede crear una ruleta, abrirla, hacer apuestas con diferentes usuarios, y cerrar la ruleta para que automáticamente de un número y color ganador. Se utiliza Authorization para la mayoría de los endpoint, así que se debe utilizar JWT Bearer en el Header. Es aconsejable utilizar Postman.
 
 ## Contents
 - [Endpoints](#Endpoints)
@@ -8,6 +8,7 @@ Esta es una API hecha en C#, .NET CORE, MongoDB, HAProxy, Docker y JWT Authentic
 - [Requirements](#Requirements)
 - [Instalation](#Instalation)
 - [Usage](#Usage)
+- [TODO](#TODO)
 
 <a name="Endpoints"></a>
 ## Main Endpoints
@@ -98,3 +99,12 @@ Para preparar el proyecto en Docker se puede utilizar el bash script en linux. S
 ```bash
 cd RouletteAPI
 ./build.sh
+```
+
+<a name="TODO"></a>
+## TODO
+* Implementar servicios para desacoplar los repositorios.
+* Implementar una mejor arquitectura como DDD.
+* Hay algunas respuestas y errores que aún deben ser manejados.
+* Configuración de master-slave en la base de datos.
+* Persistencia del cache en el Load Balancer.
