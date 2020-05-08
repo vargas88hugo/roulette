@@ -97,7 +97,7 @@ git clone https://github.com/vargas88hugo/roulette.git
 ## Usage
 Para preparar el proyecto en Docker se puede utilizar el bash script en linux. Si desea correrlo localmente hay un branch configurado.
 ```bash
-cd RouletteAPI
+cd roulette
 ./build.sh
 ```
 
