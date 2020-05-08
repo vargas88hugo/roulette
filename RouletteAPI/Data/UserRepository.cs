@@ -41,20 +41,11 @@ namespace RouletteAPI.Data
 
     public async Task<User> CreateUser(User user, string password)
     {
-      if (string.IsNullOrWhiteSpace(password))
-        throw new AppException("Password is required");
-
-      // var existUser = await _context.Users.FindAsync(x => x.Username == user.Username);
-
-      // if (existUser != null)
-      //   throw new AppException("Username \"" + user.Username + "\" is already taken");
-
+      UserHandler.CheckRegistration(password);
       byte[] passwordHash, passwordSalt;
       PasswordHandler.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
       user.PasswordHash = passwordHash;
       user.PasswordSalt = passwordSalt;
-
       await _context.Users.InsertOneAsync(user);
       return user;
     }

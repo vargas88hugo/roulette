@@ -6,19 +6,18 @@ namespace RouletteAPI.Models
 {
   public class Roulette
   {
-    private List<BetRoulette> bets;
-
     public Roulette()
     {
-      bets = new List<BetRoulette>();
+      Bets = new List<BetRoulette>();
       Status = "Close";
     }
 
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
-
     public string Status { get; set; }
+    public List<BetRoulette> Bets { get; set; }
+
 
     public void OpenGame() =>
       Status = "Open";
@@ -27,6 +26,6 @@ namespace RouletteAPI.Models
       Status = "Close";
 
     public void AddBet(BetRoulette bet) =>
-      bets.Add(bet);
+      Bets.Add(bet);
   }
 }

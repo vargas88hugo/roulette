@@ -9,5 +9,7 @@ namespace RouletteAPI.Models
 
     [Required]
     public string Password { get; set; }
+    [Required]
+    public int Money { get; set; }
   }
 }

@@ -59,6 +59,10 @@ namespace RouletteAPI.Data
       BetHandler.CheckBetRoulette(bet, roulette.Status);
       bet.UserId = userId;
       roulette.AddBet(bet);
+      await _context.Roulettes.ReplaceOneAsync(
+        roulette => roulette.Id == bet.RouletteId,
+        roulette
+      );
       return roulette;
     }
   }

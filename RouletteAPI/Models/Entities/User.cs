@@ -10,7 +10,7 @@ namespace RouletteAPI.Models
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
     public string Username { get; set; }
-    public string Money { get; set; }
+    public int Money { get; set; }
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
   }

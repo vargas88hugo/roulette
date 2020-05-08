@@ -48,7 +48,7 @@ namespace RouletteAPI.Controllers
       }
       catch (Exception ex)
       {
-        return BadRequest(new { message = ex.Message.ToString() });
+        return BadRequest(new { message = ex.Message });
       }
     }
 
@@ -74,28 +74,15 @@ namespace RouletteAPI.Controllers
     public async Task<IActionResult> Post([FromBody] RegisterModel model)
     {
       var user = _mapper.Map<User>(model);
-
       try
       {
-        // create user
         await _userRepository.CreateUser(user, model.Password);
-        return CreatedAtRoute("/",
-          new { id = user.Id.ToString() },
-          new { message = $"User with id {user.Id} has been created" });
+        return Created("/", new { message = $"User with id {user.Id} has been created" });
       }
       catch (AppException ex)
       {
-        // return error message if there was an exception
         return BadRequest(new { message = ex.Message });
       }
-      // User newUser = await _userRepository.CreateUser(user);
-      // if (newUser == null)
-      // {
-      //   return BadRequest();
-      // }
-      // return CreatedAtRoute("Get",
-      //   new { id = user.Id.ToString() },
-      //   new { message = $"User with id {user.Id} has been created" });
     }
   }
 }
