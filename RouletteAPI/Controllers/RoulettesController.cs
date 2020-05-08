@@ -74,12 +74,11 @@ namespace RouletteAPI.Controllers
     {
       var roulette = await _rouletteRepository.CloseRoulette(objId.Id);
       if (roulette == null)
-      {
         return NotFound();
-      }
+      var result = RouletteHandler.ChooseWinningBet(roulette);
       return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
-        new { message = $"Roulette with id {roulette.Id} has been Closed" }
+        new { message = result }
       );
     }
 
