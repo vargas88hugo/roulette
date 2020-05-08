@@ -77,15 +77,22 @@ namespace RouletteAPI.Controllers
     [HttpPut("close")]
     public async Task<IActionResult> PutClose([FromBody] Roulette objId)
     {
-      var roulette = await _rouletteRepository.CloseRoulette(objId.Id);
-      if (roulette == null)
-        return NotFound();
-      var result = RouletteHandler.ChooseWinningBet(roulette);
+      try
+      {
+        var roulette = await _rouletteRepository.CloseRoulette(objId.Id);
+        if (roulette == null)
+          return NotFound();
+        var result = RouletteHandler.ChooseWinningBet(roulette);
 
-      return CreatedAtRoute("GetRoulette",
-        new { id = roulette.Id.ToString() },
-        new { Result = result, Roulette = roulette }
-      );
+        return CreatedAtRoute("GetRoulette",
+          new { id = roulette.Id.ToString() },
+          new { Result = result, Roulette = roulette }
+        );
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
     }
 
     [HttpPut("bet")]
