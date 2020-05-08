@@ -89,12 +89,12 @@ Esta es una API hecha en C#, .NET CORE, MongoDB, HAProxy, Docker y JWT Authentic
 ## Instalation
 Clone into your project:
 ```bash
-git clone https://github.com/vargas88hugo/data-caching
+git clone https://github.com/vargas88hugo/roulette.git
 ```
 
 <a name="Usage"></a>
 ## Usage
-Para preparar el proyecto en Docker se puede utilizar el bash script para linux, y si lo quieres utilizar en un entorno local hay un branch configurado.
+Para preparar el proyecto en Docker se puede utilizar el bash script en linux. Si desea correrlo localmente hay un branch configurado.
 ```bash
 cd RouletteAPI
 ./build.sh
