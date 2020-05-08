@@ -21,49 +21,22 @@ namespace RouletteAPI.Data
 
     public async Task<User> Authenticate(string username, string password)
     {
-      if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-        return null;
 
       var user = await _context.Users.Find(x => x.Username == username)
         .FirstOrDefaultAsync();
-
-      // check if username exists
-      if (user == null)
-        return null;
-
-      // check if password is correct
-      if (!PasswordHandler.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-        return null;
-
-      // authentication successful
+      UserHandler.CheckAuthentication(user, password);
       return user;
     }
 
     public async Task<IEnumerable<User>> GetAllUsers()
     {
-      try
-      {
-        return await _context.Users.Find(_ => true).ToListAsync();
-      }
-      catch (Exception ex)
-      {
-
-        throw ex;
-      }
+      return await _context.Users.Find(_ => true).ToListAsync();
     }
 
     public async Task<User> GetUser(string id)
     {
-      try
-      {
-        return await _context.Users.Find(user => user.Id == id.ToString())
-          .FirstOrDefaultAsync();
-      }
-      catch (Exception ex)
-      {
-
-        throw ex;
-      }
+      return await _context.Users.Find(user => user.Id == id.ToString())
+        .FirstOrDefaultAsync();
     }
 
     public async Task<User> CreateUser(User user, string password)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,6 @@ using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
 using RouletteAPI.Helpers;
 using AutoMapper;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace RouletteAPI.Controllers
 {
@@ -39,32 +35,21 @@ namespace RouletteAPI.Controllers
     [HttpPost("authenticate")]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
     {
-      var user = await _userRepository.Authenticate(model.Username, model.Password);
-
-      if (user == null)
-        return BadRequest(new { message = "Username or password is incorrect" });
-
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-      var tokenDescriptor = new SecurityTokenDescriptor
+      try
       {
-        Subject = new ClaimsIdentity(new Claim[]
-          {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-          }),
-        Expires = DateTime.UtcNow.AddDays(7),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-      };
-      var token = tokenHandler.CreateToken(tokenDescriptor);
-      var tokenString = tokenHandler.WriteToken(token);
-
-      // return basic user info and authentication token
-      return Ok(new
+        var user = await _userRepository.Authenticate(model.Username, model.Password);
+        var tokenString = JwtHandler.CreateToken(user, _appSettings);
+        return Ok(new
+        {
+          Id = user.Id,
+          Username = user.Username,
+          Token = tokenString
+        });
+      }
+      catch (Exception ex)
       {
-        Id = user.Id,
-        Username = user.Username,
-        Token = tokenString
-      });
+        return BadRequest(new { message = ex.Message.ToString() });
+      }
     }
 
     [HttpGet]

@@ -1,8 +1,9 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography.X509Certificates;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using RouletteAPI.Models;
 
 namespace RouletteAPI.Helpers
 {
@@ -23,6 +24,26 @@ namespace RouletteAPI.Helpers
       };
       var claims = handler.ValidateToken(token, validations, out var tokenSecure);
       return claims.Identity.Name;
+    }
+
+    public static string CreateToken(User user, AppSettings _appSettings)
+    {
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(new Claim[]
+          {
+            new Claim(ClaimTypes.Name, user.Id.ToString())
+          }),
+        Expires = DateTime.UtcNow.AddDays(7),
+        SigningCredentials = new SigningCredentials(
+          new SymmetricSecurityKey(key),
+          SecurityAlgorithms.HmacSha256Signature
+        )
+      };
+      var token = tokenHandler.CreateToken(tokenDescriptor);
+      return tokenHandler.WriteToken(token);
     }
   }
 }
