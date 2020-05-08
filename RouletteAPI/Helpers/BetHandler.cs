@@ -6,9 +6,9 @@ namespace RouletteAPI.Helpers
   {
     public static void CheckBetRoulette(BetRoulette betRoulette, string rouletteStatus)
     {
-      var bet = betRoulette.Bet;
+      var bet = betRoulette.Number;
       var money = betRoulette.Money;
-      CheckBet(betRoulette.Bet);
+      CheckBet(betRoulette.Number);
       CheckMoney(betRoulette.Money);
       CheckRoulette(rouletteStatus);
       CheckColor(betRoulette.Color);

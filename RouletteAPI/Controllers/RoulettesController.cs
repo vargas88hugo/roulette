@@ -76,9 +76,10 @@ namespace RouletteAPI.Controllers
       if (roulette == null)
         return NotFound();
       var result = RouletteHandler.ChooseWinningBet(roulette);
+
       return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
-        new { message = result }
+        new { Result = result, Roulette = roulette }
       );
     }
 
@@ -102,7 +103,7 @@ namespace RouletteAPI.Controllers
       return CreatedAtRoute(
         "GetRoulette",
         new { id = bet.RouletteId },
-        new { message = $"You bet ${bet.Money} on {bet.Color} {bet.Bet}. Good luck!" }
+        new { message = $"You bet ${bet.Money} on {bet.Color} {bet.Number}. Good luck!" }
       );
     }
   }
