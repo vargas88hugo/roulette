@@ -49,5 +49,12 @@ namespace RouletteAPI.Data
       await _context.Users.InsertOneAsync(user);
       return user;
     }
+
+    public async Task<User> UpdateUserMoney(User user, int money)
+    {
+      user.Money = user.Money - money;
+      await _context.Users.ReplaceOneAsync(x => x.Id == user.Id, user);
+      return user;
+    }
   }
 }

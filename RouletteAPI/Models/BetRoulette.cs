@@ -1,9 +1,13 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RouletteAPI.Models
 {
   public class BetRoulette
   {
+    BetRoulette() =>
+      Date = DateTime.Now;
+
     [Required]
     public string Color { get; set; }
     [Required]
@@ -13,5 +17,6 @@ namespace RouletteAPI.Models
     [Required]
     public string RouletteId { get; set; }
     public string UserId { get; set; }
+    public DateTime Date { get; set; }
   }
 }

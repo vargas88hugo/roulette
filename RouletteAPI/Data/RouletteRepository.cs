@@ -56,6 +56,8 @@ namespace RouletteAPI.Data
     public async Task<Roulette> MakeBetRoulette(BetRoulette bet, string userId)
     {
       Roulette roulette = await this.GetRoulette(bet.RouletteId);
+      if (roulette == null)
+        throw new AppException("Roulette Id is incorrect");
       BetHandler.CheckBetRoulette(bet, roulette.Status);
       bet.UserId = userId;
       roulette.AddBet(bet);

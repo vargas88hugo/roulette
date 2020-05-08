@@ -10,5 +10,6 @@ namespace RouletteAPI.Interfaces
     Task<IEnumerable<User>> GetAllUsers();
     Task<User> GetUser(string id);
     Task<User> CreateUser(User user, string password);
+    Task<User> UpdateUserMoney(User user, int money);
   }
 }

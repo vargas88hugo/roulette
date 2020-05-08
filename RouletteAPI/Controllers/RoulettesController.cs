@@ -90,6 +90,10 @@ namespace RouletteAPI.Controllers
       {
         var token = Request.Headers["Authorization"];
         var userId = JwtHandler.ParseToken(token);
+        var user = await _userRepository.GetUser(userId);
+        if (user.Money < bet.Money)
+          throw new AppException("You don't have enough money");
+        await _userRepository.UpdateUserMoney(user, bet.Money);
         await _rouletteRepository.MakeBetRoulette(bet, userId);
       }
       catch (Exception ex)
