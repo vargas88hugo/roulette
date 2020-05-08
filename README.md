@@ -25,10 +25,10 @@ Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authe
 ## Otros Endpoints
 | URL | Service |
 |-----|---------|
-| GET http://localhost:5000/api/v1/roulettes/{id} | Petición privada para obtener una ruleta por id |
-| DETELE http://localhost:5000/api/roulettes/{id} | Petición privada para eliminar una ruleta por id |
+| GET http://localhost:8080/api/v1/roulettes/{id} | Petición privada para obtener una ruleta por id |
+| DETELE http://localhost:8080/api/roulettes/{id} | Petición privada para eliminar una ruleta por id |
 | GET http://localhost:8080/api/v1/users | Petición privada para obtener todos los usuarios |
-| GET http://localhost:5000/api/v1/users/{id} | Petición privada para obtener un usuario por id |
+| GET http://localhost:8080/api/v1/users/{id} | Petición privada para obtener un usuario por id |
 
 <a name="Folder"></a>
 ## Folder Structure
