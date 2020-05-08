@@ -58,15 +58,20 @@ namespace RouletteAPI.Controllers
     [HttpPut("open")]
     public async Task<IActionResult> PutOpen([FromBody] Roulette objId)
     {
-      var roulette = await _rouletteRepository.OpenRoulette(objId.Id);
-      if (roulette == null)
+      try
       {
-        return NotFound();
+        var roulette = await _rouletteRepository.OpenRoulette(objId.Id);
+        if (roulette == null)
+          return NotFound();
+        return CreatedAtRoute("GetRoulette",
+          new { id = roulette.Id.ToString() },
+          new { message = $"Roulette with id {roulette.Id} has been Opened" }
+        );
       }
-      return CreatedAtRoute("GetRoulette",
-        new { id = roulette.Id.ToString() },
-        new { message = $"Roulette with id {roulette.Id} has been Opened" }
-      );
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
     }
 
     [HttpPut("close")]
@@ -83,7 +88,7 @@ namespace RouletteAPI.Controllers
       );
     }
 
-    [HttpGet("bet")]
+    [HttpPut("bet")]
     public async Task<IActionResult> BetRoulette(BetRoulette bet)
     {
       try

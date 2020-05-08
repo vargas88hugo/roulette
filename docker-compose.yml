@@ -1,0 +1,24 @@
+version: '3'
+services:
+  loadbalance:
+    image: haproxy
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+
+  web-api:
+    image: docker-net
+    build: ./RouletteAPI
+    ports:
+      - '80:80'
+    environment:
+      MONGO_HOST: mongo-01
+    depends_on:
+      - 'mongo-01'
+
+  mongo-01:
+    image: 'mongo-01'
+    restart: always
+    ports:
+      - '27017:27017'
