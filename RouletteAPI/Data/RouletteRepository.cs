@@ -1,5 +1,4 @@
 using System;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
+using RouletteAPI.Helpers;
 
 namespace RouletteAPI.Data
 {
@@ -21,74 +21,45 @@ namespace RouletteAPI.Data
 
     public async Task<IEnumerable<Roulette>> GetAllRoulettes()
     {
-      try
-      {
-        return await _context.Roulettes.Find(_ => true).ToListAsync();
-      }
-      catch (Exception ex)
-      {
-
-        throw ex;
-      }
+      return await _context.Roulettes.Find(_ => true).ToListAsync();
     }
 
     public async Task<Roulette> GetRoulette(string id)
     {
-      try
-      {
-        return await _context.Roulettes.Find(roulette => roulette.Id == id)
-          .FirstOrDefaultAsync();
-      }
-      catch (Exception ex)
-      {
-
-        throw ex;
-      }
+      return await _context.Roulettes.Find(roulette => roulette.Id == id)
+        .FirstOrDefaultAsync();
     }
 
     public async Task<Roulette> CreateRoulette()
     {
-      try
-      {
-        Roulette roulette = new Roulette();
-        await _context.Roulettes.InsertOneAsync(roulette);
-        return roulette;
-      }
-      catch (Exception ex)
-      {
-
-        throw ex;
-      }
+      Roulette roulette = new Roulette();
+      await _context.Roulettes.InsertOneAsync(roulette);
+      return roulette;
     }
 
     public async Task<Roulette> OpenRoulette(string id)
     {
-      try
-      {
-        Roulette roulette = await this.GetRoulette(id);
-        roulette.Status = "Open";
-        await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
-        return roulette;
-      }
-      catch
-      {
-        return null;
-      }
+      Roulette roulette = await this.GetRoulette(id);
+      roulette.Status = "Open";
+      await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
+      return roulette;
     }
 
     public async Task<Roulette> CloseRoulette(string id)
     {
-      try
-      {
-        Roulette roulette = await this.GetRoulette(id);
-        roulette.Status = "Close";
-        await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
-        return roulette;
-      }
-      catch
-      {
-        return null;
-      }
+      Roulette roulette = await this.GetRoulette(id);
+      roulette.Status = "Close";
+      await _context.Roulettes.ReplaceOneAsync(roulette => roulette.Id == id, roulette);
+      return roulette;
+    }
+
+    public async Task<Roulette> MakeBetRoulette(BetRoulette bet, string userId)
+    {
+      Roulette roulette = await this.GetRoulette(bet.RouletteId);
+      BetHandler.CheckBetRoulette(bet, roulette.Status);
+      bet.UserId = userId;
+      roulette.AddBet(bet);
+      return roulette;
     }
   }
 }

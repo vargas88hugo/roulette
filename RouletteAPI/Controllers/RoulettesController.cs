@@ -3,18 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using RouletteAPI.Interfaces;
 using RouletteAPI.Models;
+using RouletteAPI.Helpers;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace RouletteAPI.Controllers
 {
+  [Authorize]
   [Route("api/v1/[controller]")]
   [ApiController]
   public class RoulettesController : ControllerBase
   {
     private readonly IRouletteRepository _rouletteRepository;
+    private readonly IUserRepository _userRepository;
 
-    public RoulettesController(IRouletteRepository rouletteRepository)
+    public RoulettesController(
+      IRouletteRepository rouletteRepository,
+      IUserRepository userRepository
+    )
     {
+      _userRepository = userRepository;
       _rouletteRepository = rouletteRepository;
     }
 
@@ -71,6 +80,26 @@ namespace RouletteAPI.Controllers
       return CreatedAtRoute("GetRoulette",
         new { id = roulette.Id.ToString() },
         new { message = $"Roulette with id {roulette.Id} has been Closed" }
+      );
+    }
+
+    [HttpGet("bet")]
+    public async Task<IActionResult> BetRoulette(BetRoulette bet)
+    {
+      try
+      {
+        var token = Request.Headers["Authorization"];
+        var userId = JwtHandler.ParseToken(token);
+        await _rouletteRepository.MakeBetRoulette(bet, userId);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message.ToString() });
+      }
+      return CreatedAtRoute(
+        "GetRoulette",
+        new { id = bet.RouletteId },
+        new { message = $"You bet ${bet.Money} on {bet.Color} {bet.Bet}. Good luck!" }
       );
     }
   }

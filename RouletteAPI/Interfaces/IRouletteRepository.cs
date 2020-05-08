@@ -11,5 +11,6 @@ namespace RouletteAPI.Interfaces
     Task<Roulette> CreateRoulette();
     Task<Roulette> OpenRoulette(string id);
     Task<Roulette> CloseRoulette(string id);
+    Task<Roulette> MakeBetRoulette(BetRoulette bet, string userId);
   }
 }

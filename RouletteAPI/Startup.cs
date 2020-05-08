@@ -65,9 +65,7 @@ namespace RouletteAPI
                   var userId = context.Principal.Identity.Name;
                   var user = userService.GetUser(userId);
                   if (user == null)
-                  {
                     context.Fail("Unauthorized");
-                  }
                   return Task.CompletedTask;
                 }
         };
