@@ -19,11 +19,29 @@ namespace RouletteApi.Controllers
       _userService = userService;
 
     [HttpGet]
-    public async Task<IActionResult> GetAllUsers() =>
-      Ok(await _userService.GetAllUsers());
+    public async Task<IActionResult> GetAllUsers()
+    {
+      try
+      {
+        return Ok(await _userService.GetAllUsers());
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
 
     [HttpGet("{id:length(24)}")]
-    public async Task<IActionResult> GetUser(string id) =>
-      Ok(await _userService.GetUser(id));
+    public async Task<IActionResult> GetUser(string id)
+    {
+      try
+      {
+        return Ok(await _userService.GetUser(id));
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
   }
 }

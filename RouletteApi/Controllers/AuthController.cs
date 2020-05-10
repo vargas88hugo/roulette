@@ -25,24 +25,38 @@ namespace RouletteApi.Controllers
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser([FromBody] RegisterModel model)
     {
-      await _authService.Register(model);
-      return this.StatusCode(
-        StatusCodes.Status201Created,
-        new { message = $"User with name {model.Username} has been created" }
-      );
+      try
+      {
+        await _authService.Register(model);
+        return this.StatusCode(
+          StatusCodes.Status201Created,
+          new { message = $"User with name {model.Username} has been created" }
+        );
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
     }
 
     [HttpPost("authenticate")]
     public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateModel model)
     {
-      var user = await _authService.Authenticate(model);
-      var tokenString = JwtHelper.CreateToken(user, _appSettings);
-      return Ok(new
+      try
       {
-        Id = user.Id,
-        Username = user.UserName,
-        token = tokenString
-      });
+        var user = await _authService.Authenticate(model);
+        var tokenString = JwtHelper.CreateToken(user, _appSettings);
+        return Ok(new
+        {
+          Id = user.Id,
+          Username = user.UserName,
+          token = tokenString
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
     }
   }
 }

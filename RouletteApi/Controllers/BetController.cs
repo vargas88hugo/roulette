@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,19 @@ namespace RouletteApi.Controllers
     [HttpPost("makebet")]
     public async Task<IActionResult> MakeBet(BetModel model)
     {
-      var token = Request.Headers["Authorization"];
-      var betMessage = await _betService.MakeBet(model, token);
-      return this.StatusCode(
-        StatusCodes.Status201Created,
-        new { message = betMessage.message }
-      );
+      try
+      {
+        var token = Request.Headers["Authorization"];
+        var betMessage = await _betService.MakeBet(model, token);
+        return this.StatusCode(
+          StatusCodes.Status201Created,
+          new { message = betMessage.message }
+        );
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
     }
   }
 }
