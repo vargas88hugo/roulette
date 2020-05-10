@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using RouletteApi.Helpers;
 using RouletteApi.Interfaces;
 using RouletteApi.Models;
-using RouletteApi.Models.Entities;
 
 namespace RouletteApi.Controllers
 {
@@ -37,7 +36,7 @@ namespace RouletteApi.Controllers
     public async Task<IActionResult> AuthenticateUser([FromBody] AuthenticateModel model)
     {
       var user = await _authService.Authenticate(model);
-      var tokenString = JwtHandler.CreateToken(user, _appSettings);
+      var tokenString = JwtHelper.CreateToken(user, _appSettings);
       return Ok(new
       {
         Id = user.Id,

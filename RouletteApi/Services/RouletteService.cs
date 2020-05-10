@@ -21,7 +21,7 @@ namespace RouletteApi.Services
     public async Task<Roulette> GetRoulette(string id)
     {
       var roulette = await _rouletteRepository.GetRouletteById(id);
-      if (roulette == null)
+      if (!RouletteHelper.existRoulette(roulette))
         throw new Exception($"Roulette with id {id} not found");
       return roulette;
     }
@@ -36,7 +36,7 @@ namespace RouletteApi.Services
     public async Task<Roulette> OpenRoulette(string id)
     {
       var roulette = await _rouletteRepository.GetRouletteById(id);
-      if (roulette == null)
+      if (!RouletteHelper.existRoulette(roulette))
         throw new Exception($"Roulette with id {id} not found");
       roulette.Status = "Open";
       await _rouletteRepository.UpdateRoulette(roulette);
@@ -46,7 +46,7 @@ namespace RouletteApi.Services
     public async Task<BetMessageModel> CloseRoulette(string id)
     {
       var roulette = await _rouletteRepository.GetRouletteById(id);
-      if (roulette == null)
+      if (!RouletteHelper.existRoulette(roulette))
         throw new Exception($"Roulette with id {id} not found");
       roulette.Status = "Close";
       await _rouletteRepository.UpdateRoulette(roulette);

@@ -17,11 +17,18 @@ namespace RouletteApi.Repositories
 
     public async Task<User> GetUserById(string id) =>
       await _context.Users.Find(user => user.Id == id).FirstOrDefaultAsync();
+
     public async Task<User> GetUserByName(string name) =>
       await _context.Users.Find(user => user.UserName == name).FirstOrDefaultAsync();
+
     public async Task<IEnumerable<User>> GetAllUsers() =>
       await _context.Users.Find(_ => true).ToListAsync();
+
     public async Task InsertUser(User user) =>
       await _context.Users.InsertOneAsync(user);
+
+    public async Task UpdateUser(User newUser) =>
+      await _context.Users
+        .ReplaceOneAsync(user => user.Id == newUser.Id, newUser);
   }
 }

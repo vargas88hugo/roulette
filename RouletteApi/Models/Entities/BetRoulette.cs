@@ -5,16 +5,19 @@ namespace RouletteApi.Models.Entities
 {
   public class BetRoulette
   {
-    BetRoulette() =>
+    public BetRoulette(BetModel model, string userId)
+    {
+      Color = model.Color;
+      Number = model.Number;
+      RouletteId = model.RouletteId;
+      UserId = userId;
       Date = DateTime.Now;
 
-    [Required]
+    }
+
     public string Color { get; set; }
-    [Required]
     public int Number { get; set; }
-    [Required]
     public int Money { get; set; }
-    [Required]
     public string RouletteId { get; set; }
     public string UserId { get; set; }
     public DateTime Date { get; set; }

@@ -40,6 +40,7 @@ namespace RouletteApi
       services.AddTransient<IUserService, UserService>();
       services.AddTransient<IAuthService, AuthService>();
       services.AddTransient<IRouletteService, RouletteService>();
+      services.AddTransient<IBetService, BetService>();
       services.AddControllers();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

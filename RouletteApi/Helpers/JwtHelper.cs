@@ -7,7 +7,7 @@ using RouletteApi.Models.Entities;
 
 namespace RouletteApi.Helpers
 {
-  public class JwtHandler
+  public class JwtHelper
   {
     public static string ParseToken(string authHeader)
     {
