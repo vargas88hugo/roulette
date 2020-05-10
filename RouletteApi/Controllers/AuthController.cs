@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +23,16 @@ namespace RouletteApi.Controllers
       {
         await _authService.Register(model);
       }
-      catch (System.Exception)
+      catch (Exception ex)
       {
-        throw;
+        return BadRequest(new { error = ex.Message });
       }
       return this.StatusCode(
         StatusCodes.Status201Created,
-        $"User with name {model.Username} has been created"
+        new
+        {
+          message = $"User with name {model.Username} has been created"
+        }
       );
     }
   }
