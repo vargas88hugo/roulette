@@ -6,7 +6,8 @@ namespace RouletteApi.Interfaces
 {
   public interface IUserRepository
   {
-    Task<User> GetUser(string id);
+    Task<User> GetUserById(string id);
+    Task<User> GetUserByName(string name);
     Task<IEnumerable<User>> GetAllUsers();
     Task InsertUser(User user);
   }

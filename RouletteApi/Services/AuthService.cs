@@ -22,11 +22,17 @@ namespace RouletteApi.Services
       _mapper = mapper;
     }
 
-    public async Task<User> Register(RegisterModel register)
+    public async Task<User> Register(RegisterModel model)
     {
-      var unsetUser = _mapper.Map<User>(register);
-      var user = AuthHelper.SetPasswordUser(unsetUser, register.Password);
+      var unsetUser = _mapper.Map<User>(model);
+      var user = AuthHelper.SetPasswordUser(unsetUser, model.Password);
       await _userRepository.InsertUser(user);
+      return user;
+    }
+    public async Task<User> Authenticate(AuthenticateModel model)
+    {
+      var user = await _userRepository.GetUserByName(model.Username);
+      AuthHelper.CheckAuthentication(user, model.Password);
       return user;
     }
   }

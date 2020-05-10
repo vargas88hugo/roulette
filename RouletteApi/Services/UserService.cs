@@ -19,7 +19,7 @@ namespace RouletteApi.Services
 
     public async Task<User> GetUser(string id)
     {
-      return await _userRepository.GetUser(id);
+      return await _userRepository.GetUserById(id);
     }
   }
 }

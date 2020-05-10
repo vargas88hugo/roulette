@@ -6,6 +6,7 @@ namespace RouletteApi.Interfaces
 {
   public interface IAuthService
   {
-    Task<User> Register(RegisterModel user);
+    Task<User> Register(RegisterModel model);
+    Task<User> Authenticate(AuthenticateModel model);
   }
 }
