@@ -9,6 +9,6 @@ namespace RouletteApi.Interfaces
     Task<Roulette> GetRouletteById(string id);
     Task<IEnumerable<Roulette>> GetAllRoulettes();
     Task InsertRoulette(Roulette roulette);
-    Task ReplaceRoulette(Roulette roulette);
+    Task UpdateRoulette(Roulette roulette);
   }
 }

@@ -31,6 +31,7 @@ namespace RouletteApi.Helpers
       if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         throw new Exception("Username or password is incorrect");
     }
+
     public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
     {
       using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))

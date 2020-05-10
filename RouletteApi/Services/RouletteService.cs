@@ -39,7 +39,7 @@ namespace RouletteApi.Services
       if (roulette == null)
         throw new Exception($"Roulette with id {id} not found");
       roulette.Status = "Open";
-      await _rouletteRepository.ReplaceRoulette(roulette);
+      await _rouletteRepository.UpdateRoulette(roulette);
       return roulette;
     }
 
@@ -49,7 +49,7 @@ namespace RouletteApi.Services
       if (roulette == null)
         throw new Exception($"Roulette with id {id} not found");
       roulette.Status = "Close";
-      await _rouletteRepository.ReplaceRoulette(roulette);
+      await _rouletteRepository.UpdateRoulette(roulette);
       var message = RouletteHelper.ChooseWinningBet(roulette);
       return new BetMessageModel(
         message,

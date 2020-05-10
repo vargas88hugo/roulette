@@ -24,7 +24,7 @@ namespace RouletteApi.Repositories
     public async Task InsertRoulette(Roulette roulette) =>
       await _context.Roulettes.InsertOneAsync(roulette);
 
-    public async Task ReplaceRoulette(Roulette newRoulette) =>
+    public async Task UpdateRoulette(Roulette newRoulette) =>
       await _context.Roulettes
         .ReplaceOneAsync(roulette => roulette.Id == newRoulette.Id, newRoulette);
   }

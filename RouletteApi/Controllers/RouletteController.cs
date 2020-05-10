@@ -23,13 +23,8 @@ namespace RouletteApi.Controllers
       Ok(await _rouletteService.GetAllRoulettes());
 
     [HttpGet("{id:length(24)}")]
-    public async Task<IActionResult> GetRoulette(string id)
-    {
-      var roulette = await _rouletteService.GetRoulette(id);
-      if (roulette == null)
-        return NotFound();
-      return Ok(roulette);
-    }
+    public async Task<IActionResult> GetRoulette(string id) =>
+      Ok(await _rouletteService.GetRoulette(id));
 
     [HttpPost]
     public async Task<IActionResult> CreateRoullete()
