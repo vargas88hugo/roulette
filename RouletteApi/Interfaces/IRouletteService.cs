@@ -11,6 +11,5 @@ namespace RouletteApi.Interfaces
     Task<IEnumerable<Roulette>> GetAllRoulettes();
     Task<Roulette> CreateRoulette();
     Task<Roulette> OpenRoulette(string id);
-    Task<BetMessageModel> CloseRoulette(string id);
   }
 }

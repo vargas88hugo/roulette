@@ -3,6 +3,7 @@ using RouletteApi.Interfaces;
 using RouletteApi.Models;
 using RouletteApi.Models.Entities;
 using RouletteApi.Helpers;
+using System;
 
 namespace RouletteApi.Services
 {
@@ -34,7 +35,7 @@ namespace RouletteApi.Services
     public async Task<Roulette> ConfigureRoulette(BetModel model, User user)
     {
       Roulette roulette = await _rouletteRepository.GetRouletteById(model.RouletteId);
-      RouletteHelper.CheckRoulette(roulette, model.RouletteId);
+      RouletteHelper.CheckBetRoulette(roulette, model.RouletteId);
       BetRoulette bet = new BetRoulette(model, user);
       roulette.AddBet(bet);
       return roulette;
@@ -52,6 +53,19 @@ namespace RouletteApi.Services
     {
       await _userRepository.UpdateUser(user);
       await _rouletteRepository.UpdateRoulette(roulette);
+    }
+
+    public async Task<BetMessageModel> CloseRoulette(string id)
+    {
+      var roulette = await _rouletteRepository.GetRouletteById(id);
+      RouletteHelper.CheckBetRoulette(roulette, id);
+      roulette.Status = "Close";
+      await _rouletteRepository.UpdateRoulette(roulette);
+      var message = RouletteHelper.ChooseWinningBet(roulette);
+      return new BetMessageModel(
+        message,
+        roulette.Bets
+      );
     }
   }
 }

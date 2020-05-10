@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using RouletteApi.Models.Entities;
 
 namespace RouletteApi.Helpers
@@ -32,13 +33,20 @@ namespace RouletteApi.Helpers
       return $"Result: color {color} number {number} | There is not winner";
     }
 
-    public static void CheckRoulette(Roulette roulette, string id)
+    public static void CheckBetRoulette(Roulette roulette, string rouletteId)
     {
       if (!RouletteHelper.existRoulette(roulette))
-        throw new Exception($"Roulette with id {id} not found");
+        throw new Exception($"Roulette with id {rouletteId} not found");
       if (!RouletteHelper.isRouletteOpen(roulette.Status))
-        throw new Exception($"The roulette with id {id} is closed");
+        throw new Exception($"The roulette with id {rouletteId} is closed");
     }
 
+    public static void ConfigureOpenRoulette(Roulette roulette, string rouletteId)
+    {
+      if (!RouletteHelper.existRoulette(roulette))
+        throw new Exception($"Roulette with id {rouletteId} not found");
+      roulette.Status = "Open";
+      roulette.Bets = new List<BetRoulette>();
+    }
   }
 }

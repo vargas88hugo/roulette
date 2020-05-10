@@ -33,28 +33,12 @@ namespace RouletteApi.Services
       return roulette;
     }
 
-    public async Task<Roulette> OpenRoulette(string id)
+    public async Task<Roulette> OpenRoulette(string rouletteId)
     {
-      var roulette = await _rouletteRepository.GetRouletteById(id);
-      if (!RouletteHelper.existRoulette(roulette))
-        throw new Exception($"Roulette with id {id} not found");
-      roulette.Status = "Open";
+      var roulette = await _rouletteRepository.GetRouletteById(rouletteId);
+      RouletteHelper.ConfigureOpenRoulette(roulette, rouletteId);
       await _rouletteRepository.UpdateRoulette(roulette);
       return roulette;
-    }
-
-    public async Task<BetMessageModel> CloseRoulette(string id)
-    {
-      var roulette = await _rouletteRepository.GetRouletteById(id);
-      if (!RouletteHelper.existRoulette(roulette))
-        throw new Exception($"Roulette with id {id} not found");
-      roulette.Status = "Close";
-      await _rouletteRepository.UpdateRoulette(roulette);
-      var message = RouletteHelper.ChooseWinningBet(roulette);
-      return new BetMessageModel(
-        message,
-        roulette.Bets
-      );
     }
   }
 }

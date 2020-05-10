@@ -68,22 +68,5 @@ namespace RouletteApi.Controllers
         return BadRequest(new { message = ex.Message });
       }
     }
-
-    [HttpPut("close")]
-    public async Task<IActionResult> CloseRoulette([FromBody] CloseOpenModel model)
-    {
-      try
-      {
-        BetMessageModel message = await _rouletteService.CloseRoulette(model.RouletteId);
-        return this.StatusCode(
-          StatusCodes.Status201Created,
-          new { message = message.message, message.bets }
-        );
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(new { message = ex.Message });
-      }
-    }
   }
 }

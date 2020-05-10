@@ -13,5 +13,6 @@ namespace RouletteApi.Interfaces
     Task<Roulette> ConfigureRoulette(BetModel model, User user);
     Task<User> ConfigureUser(BetModel model, string userId);
     Task UpdateUserRoulette(User user, Roulette roulette);
+    Task<BetMessageModel> CloseRoulette(string id);
   }
 }

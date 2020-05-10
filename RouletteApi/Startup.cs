@@ -26,11 +26,11 @@ namespace RouletteApi
 
     public void ConfigureServices(IServiceCollection services)
     {
-      services.Configure<Settings>(options =>
+      services.Configure<Settings>(settingsOptions =>
       {
-        options.ConnectionString
+        settingsOptions.ConnectionString
             = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-        options.Database
+        settingsOptions.Database
             = Configuration.GetSection("MongoConnection:Database").Value;
       });
       services.AddTransient<IUserRepository, UserRepository>();
@@ -46,12 +46,12 @@ namespace RouletteApi
       services.Configure<AppSettings>(appSettingsSection);
       var appSettings = appSettingsSection.Get<AppSettings>();
       var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-      services.AddAuthentication(x =>
+      services.AddAuthentication(authOptions =>
       {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
       })
-      .AddJwtBearer(options => StartupHelper.ValidateToken(options, key));
+      .AddJwtBearer(jwtBearerOptions => StartupHelper.ValidateToken(jwtBearerOptions, key));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
