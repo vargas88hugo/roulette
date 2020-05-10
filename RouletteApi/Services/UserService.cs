@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RouletteApi.Interfaces;
@@ -15,7 +16,12 @@ namespace RouletteApi.Services
     public async Task<IEnumerable<User>> GetAllUsers() =>
       await _userRepository.GetAllUsers();
 
-    public async Task<User> GetUser(string id) =>
-      await _userRepository.GetUserById(id);
+    public async Task<User> GetUser(string id)
+    {
+      var user = await _userRepository.GetUserById(id);
+      if (user == null)
+        throw new Exception($"User with id {id} not found");
+      return user;
+    }
   }
 }

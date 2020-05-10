@@ -17,7 +17,15 @@ namespace RouletteApi.Repositories
 
     public async Task<Roulette> GetRouletteById(string id) =>
       await _context.Roulettes.Find(roulette => roulette.Id == id).FirstOrDefaultAsync();
+
     public async Task<IEnumerable<Roulette>> GetAllRoulettes() =>
       await _context.Roulettes.Find(_ => true).ToListAsync();
+
+    public async Task InsertRoulette(Roulette roulette) =>
+      await _context.Roulettes.InsertOneAsync(roulette);
+
+    public async Task ReplaceRoulette(Roulette newRoulette) =>
+      await _context.Roulettes
+        .ReplaceOneAsync(roulette => roulette.Id == newRoulette.Id, newRoulette);
   }
 }

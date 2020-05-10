@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,16 @@ namespace RouletteApi.Controllers
       _userService = userService;
 
     [HttpGet]
-    public async Task<IEnumerable<User>> GetAllUsers() =>
-      await _userService.GetAllUsers();
+    public async Task<IActionResult> GetAllUsers() =>
+      Ok(await _userService.GetAllUsers());
 
     [HttpGet("{id:length(24)}")]
-    public async Task<User> GetUser(string id) =>
-      await _userService.GetUser(id);
+    public async Task<IActionResult> GetUser(string id)
+    {
+      var user = await _userService.GetUser(id);
+      if (user == null)
+        return NotFound();
+      return Ok(user);
+    }
   }
 }
