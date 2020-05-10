@@ -36,6 +36,7 @@ namespace RouletteApi
             = Configuration.GetSection("MongoConnection:Database").Value;
       });
       services.AddTransient<IUserRepository, UserRepository>();
+      services.AddTransient<IRouletteRepository, RouletteRepository>();
       services.AddTransient<IUserService, UserService>();
       services.AddTransient<IAuthService, AuthService>();
       services.AddControllers();

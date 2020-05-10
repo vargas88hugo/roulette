@@ -3,22 +3,22 @@ using MongoDB.Driver;
 using RouletteApi.Models;
 using RouletteApi.Models.Entities;
 
-public class UserContext
+public class RouletteContext
 {
   private readonly IMongoDatabase _database = null;
 
-  public UserContext(IOptions<Settings> settings)
+  public RouletteContext(IOptions<Settings> settings)
   {
     var client = new MongoClient(settings.Value.ConnectionString);
     if (client != null)
       _database = client.GetDatabase(settings.Value.Database);
   }
 
-  public IMongoCollection<User> Users
+  public IMongoCollection<Roulette> Roulettes
   {
     get
     {
-      return _database.GetCollection<User>("Users");
+      return _database.GetCollection<Roulette>("Roulettes");
     }
   }
 }

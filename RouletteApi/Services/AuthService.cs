@@ -29,6 +29,7 @@ namespace RouletteApi.Services
       await _userRepository.InsertUser(user);
       return user;
     }
+
     public async Task<User> Authenticate(AuthenticateModel model)
     {
       var user = await _userRepository.GetUserByName(model.Username);
