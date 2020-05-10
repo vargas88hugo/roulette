@@ -8,7 +8,6 @@ namespace RouletteApi.Helpers
   {
     public AutoMapperProfile()
     {
-      CreateMap<User, UserModel>();
       CreateMap<RegisterModel, User>();
     }
   }

@@ -8,6 +8,6 @@ namespace RouletteApi.Interfaces
   {
     Task<User> GetUser(string id);
     Task<IEnumerable<User>> GetAllUsers();
-    Task<User> InsertUser(User user);
+    Task InsertUser(User user);
   }
 }

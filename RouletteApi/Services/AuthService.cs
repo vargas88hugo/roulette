@@ -26,7 +26,8 @@ namespace RouletteApi.Services
     {
       var unsetUser = _mapper.Map<User>(register);
       var user = AuthHelper.SetPasswordUser(unsetUser, register.Password);
-      return await _userRepository.InsertUser(user);
+      await _userRepository.InsertUser(user);
+      return user;
     }
   }
 }

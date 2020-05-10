@@ -19,10 +19,7 @@ namespace RouletteApi.Repositories
       await _context.Users.Find(_ => true).ToListAsync();
     public async Task<User> GetUser(string id) =>
       await _context.Users.Find(user => user.Id == id).FirstOrDefaultAsync();
-    public async Task<User> InsertUser(User user)
-    {
+    public async Task InsertUser(User user) =>
       await _context.Users.InsertOneAsync(user);
-      return user;
-    }
   }
 }
