@@ -9,17 +9,13 @@ namespace RouletteApi.Services
   {
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository)
-    {
+    public UserService(IUserRepository userRepository) =>
       _userRepository = userRepository;
-    }
 
     public async Task<IEnumerable<User>> GetAllUsers() =>
       await _userRepository.GetAllUsers();
 
-    public async Task<User> GetUser(string id)
-    {
-      return await _userRepository.GetUserById(id);
-    }
+    public async Task<User> GetUser(string id) =>
+      await _userRepository.GetUserById(id);
   }
 }

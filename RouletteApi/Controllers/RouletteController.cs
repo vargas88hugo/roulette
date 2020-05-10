@@ -12,12 +12,17 @@ namespace RouletteApi.Controllers
   [ApiController]
   public class RouletteController : ControllerBase
   {
-    private readonly IRouletteRepository _rouletteRepository;
+    private readonly IRouletteService _rouletteService;
 
-    public RouletteController(IRouletteRepository rouletteRepository) =>
-      _rouletteRepository = rouletteRepository;
+    public RouletteController(IRouletteService rouletteService) =>
+      _rouletteService = rouletteService;
 
+    [HttpGet]
     public async Task<IEnumerable<Roulette>> GetAllRoulettes() =>
-      await _rouletteRepository.GetAllRoulettes();
+      await _rouletteService.GetAllRoulettes();
+
+    [HttpGet("{id:length(24)}")]
+    public async Task<Roulette> GetRoulette(string id) =>
+      await _rouletteService.GetRoulette(id);
   }
 }

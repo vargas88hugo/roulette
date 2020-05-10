@@ -20,5 +20,9 @@ namespace RouletteApi.Controllers
     [HttpGet]
     public async Task<IEnumerable<User>> GetAllUsers() =>
       await _userService.GetAllUsers();
+
+    [HttpGet("{id:length(24)}")]
+    public async Task<User> GetUser(string id) =>
+      await _userService.GetUser(id);
   }
 }
