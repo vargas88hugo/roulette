@@ -18,7 +18,6 @@ namespace RouletteApi.Models.Entities
     public string Status { get; set; }
     public List<BetRoulette> Bets { get; set; }
 
-
     public void OpenGame() =>
       Status = "Open";
 

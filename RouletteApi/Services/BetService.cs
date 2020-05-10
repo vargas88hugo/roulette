@@ -23,19 +23,19 @@ namespace RouletteApi.Services
     public async Task<MakeBetMessageModel> MakeBet(BetModel model, string token)
     {
       var userId = JwtHelper.ParseToken(token);
-      var roulette = await this.ConfigureRoulette(model, userId);
       var user = await this.ConfigureUser(model, userId);
+      var roulette = await this.ConfigureRoulette(model, user);
       await this.UpdateUserRoulette(user, roulette);
       return new MakeBetMessageModel(
         $"You bet ${model.Money} on {model.Color} {model.Number}. Good luck!"
       );
     }
 
-    public async Task<Roulette> ConfigureRoulette(BetModel model, string userId)
+    public async Task<Roulette> ConfigureRoulette(BetModel model, User user)
     {
       Roulette roulette = await _rouletteRepository.GetRouletteById(model.RouletteId);
       RouletteHelper.CheckRoulette(roulette, model.RouletteId);
-      BetRoulette bet = new BetRoulette(model, userId);
+      BetRoulette bet = new BetRoulette(model, user);
       roulette.AddBet(bet);
       return roulette;
     }
