@@ -30,5 +30,14 @@ namespace RouletteApi.Repositories
     public async Task UpdateUser(User newUser) =>
       await _context.Users
         .ReplaceOneAsync(user => user.Id == newUser.Id, newUser);
+
+    public async Task<bool> ExistUsername(string username)
+    {
+      var user = await _context.Users.Find(user => user.UserName == username)
+        .FirstOrDefaultAsync();
+      if (user == null)
+        return false;
+      return true;
+    }
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using RouletteApi.Helpers;
@@ -25,6 +26,8 @@ namespace RouletteApi.Services
     public async Task<User> Register(RegisterModel model)
     {
       var unsetUser = _mapper.Map<User>(model);
+      if (await _userRepository.ExistUsername(model.Username))
+        throw new Exception($"User with name {model.Username} already exists");
       var user = AuthHelper.SetPasswordUser(unsetUser, model.Password);
       await _userRepository.InsertUser(user);
       return user;

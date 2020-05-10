@@ -11,5 +11,6 @@ namespace RouletteApi.Interfaces
     Task<IEnumerable<User>> GetAllUsers();
     Task InsertUser(User user);
     Task UpdateUser(User user);
+    Task<bool> ExistUsername(string username);
   }
 }
