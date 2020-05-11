@@ -1,9 +1,12 @@
 # Roulette Project
-
 Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authentication. Consiste en un juego de apuesta en el que uno puede crear una ruleta, abrirla, hacer apuestas con diferentes usuarios, y cerrar la ruleta para que automáticamente de un número y color ganador. El proyecto está diseñado para ser escalable, la arquitectura elegida es 2-Tier con un load balancer, un servidor y una base de datos con escalabilidad flexible. Se utiliza Authorization para la mayoría de los endpoint, así que se debe utilizar JWT Bearer en el Header. Es aconsejable utilizar Postman.
 
 ## Version 2
-Desacoplado repositorios del controlador. Ahora los serviciós tienen una capa de abstracción en el medio, lo que hace posible poder cambiar limpiamente la base de datos. Se ha refactorizado todo el código implementando buenas practicas de clean code.
+* Desacoplamiento de repositorios con el controlador. Ahora hay una capa intermedia de servicios orientado a interfaces.
+* Corrección de errores en docker y optimización.
+* Mejoramiento de respuestas exitosas y de errores.
+* Utilización de Data Annotations.
+* Refactorización y Clean Code.
 
 ## IMPORTANTE: 
 Ahora hay dos entornos de desarrollo que se conectan al mismo puerto del host. En ocasiones la imagen de .net tiene problemas de conectividad.
@@ -96,8 +99,12 @@ Ahora hay dos entornos de desarrollo que se conectan al mismo puerto del host. E
 
 <a name="Requirements"></a>
 ## Requirements
+### Docker
 * [Docker Engine 17.06+](https://docs.docker.com/engine/installation/)
 * [Docker Compose 1.8+](https://docs.docker.com/compose/install/)
+### Local
+* [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [MongoDB 4.2](https://docs.mongodb.com/manual/administration/install-community/)
 
 <a name="Instalation"></a>
 ## Instalation
@@ -108,7 +115,7 @@ git clone https://github.com/vargas88hugo/roulette.git
 
 <a name="Usage"></a>
 ## Usage
-Hay un entorno local y otro dockerizado. Para correr el programa sigua cualquiera de estos comandos en Linux/Windows una vez que clone el repositorio en el fichero actual:
+Hay un entorno local y otro dockerizado. Para correr el programa sigua cualquiera de los comandos en Linux/Windows una vez que clone el repositorio en el fichero actual:
 
 ### Local
 ```bash
