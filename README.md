@@ -30,9 +30,9 @@ Ahora hay dos entornos de desarrollo que se conectan al mismo puerto del host. E
 | POST http://localhost:5000/api/v2/auth/register | Registro público de usuario. Requiere username, password y money en el body |
 | POST http://localhost:5000/api/v2/auth/authenticate | Autentificación pública de usuario para obtener JWT. Requiere username y password |
 | POST http://localhost:5000/api/v2/roulette | Petición para crear una nueva ruleta, no requiere body |
-| PUT http://localhost:5000/api/v2/roulette/open | Petición privada para abrir una ruleta, require id en el body |
+| PUT http://localhost:5000/api/v2/roulette/open | Petición privada para abrir una ruleta, require RouletteId en el body. Esta acción reinicia las apuestas de la ruleta |
 | PUT http://localhost:5000/api/v2/bet/makebet | Petición privada para hacer una apuesta, requiere color, money, number, RouletteId en el body. | 
-| PUT http://localhost:5000/api/v2/bet/close | Petición privada para cerrar una ruleta y ejecutar el spin para obtener un númeroy color  ganador. Requiere id en el body |
+| PUT http://localhost:5000/api/v2/bet/close | Petición privada para cerrar una ruleta y ejecutar el spin para obtener un número y color  ganador. Requiere RouletteId en el body. Esta acción solo se puede realizar si la ruleta está abierta |
 | GET http://localhost:5000/api/v2/roulette | Petición privada para obtener todas las ruletas |
 
 
