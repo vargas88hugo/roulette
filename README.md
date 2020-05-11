@@ -1,3 +1,7 @@
+<div align="center">
+<img align="center" src="https://canberra-party-hire.com.au/wp-content/uploads/2016/06/CANBERRA-CASINO-HIRE.png" />
+</div>
+
 # Roulette Project
 Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authentication. Consiste en un juego de apuesta en el que uno puede crear una ruleta, abrirla, hacer apuestas con diferentes usuarios, y cerrar la ruleta para que automáticamente de un número y color ganador. El proyecto está diseñado para ser escalable, la arquitectura elegida es 2-Tier con un load balancer, un servidor y una base de datos con escalabilidad flexible. Se utiliza Authorization para la mayoría de los endpoint, así que se debe utilizar JWT Bearer en el Header. Es aconsejable utilizar Postman.
 
