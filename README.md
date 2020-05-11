@@ -2,6 +2,12 @@
 
 Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authentication. Consiste en un juego de apuesta en el que uno puede crear una ruleta, abrirla, hacer apuestas con diferentes usuarios, y cerrar la ruleta para que automáticamente de un número y color ganador. El proyecto está diseñado para ser escalable, la arquitectura elegida es 2-Tier con un load balancer, un servidor y una base de datos con escalabilidad flexible. Se utiliza Authorization para la mayoría de los endpoint, así que se debe utilizar JWT Bearer en el Header. Es aconsejable utilizar Postman.
 
+## Version 2
+Desacoplado repositorios del controlador. Ahora los serviciós tienen una capa de abstracción en el medio, lo que hace posible poder cambiar limpiamente la base de datos. Se ha refactorizado todo el código implementando buenas practicas de clean code.
+
+## IMPORTANTE: 
+Ahora hay dos entornos de desarrollo que se conectan al mismo puerto del host. En ocasiones la imagen de .net tiene problemas de conectividad.
+
 ## Contents
 - [Endpoints](#Endpoints)
 - [Folder Structure](#Folder)
@@ -14,70 +20,77 @@ Esta es una API hecha en C#, .NET CORE 3.1, MongoDB, HAProxy, Docker y JWT Authe
 ## Main Endpoints
 | URL | Service |
 |-----|---------|
-| POST http://localhost:8080/api/v1/users/register | Registro público de usuario |
-| POST http://localhost:8080/api/v1/users/authenticate | Autentificación pública de usuario para obtener JWT |
-| POST http://localhost:8080/api/v1/roulettes | Petición privada para crear una nueva ruleta, no requiere body |
-| PUT http://localhost:8080/api/v1/roulettes/open | Petición privada para abrir una ruleta, require id en el body |
-| PUT http://localhost:8080/api/v1/roulettes/bet | Petición privada para hacer una apuesta, requiere color, money, number, RouletteId en el body|
-| GET http://localhost:8080/api/v1/roulettes | Petición privada para obtener todas las ruletas |
-| PUT http://localhost:8080/api/v1/roulettes/close | Petición privada para cerrar una ruleta y ejecutar el spin para obtener un númeroy color  ganador, requiere id en el body |
+| POST http://localhost:5000/api/v2/auth/register | Registro público de usuario |
+| POST http://localhost:5000/api/v2/auth/authenticate | Autentificación pública de usuario para obtener JWT |
+| PUT http://localhost:5000/api/v2/bet/makebet | Petición privada para hacer una apuesta, requiere color, money, number, RouletteId en el body | 
+| PUT http://localhost:5000/api/v2/bet/close | Petición privada para cerrar una ruleta y ejecutar el spin para obtener un númeroy color  ganador. Requiere id en el body y jwt en el header |
+| POST http://localhost:5000/api/v2/roulette | Petición para crear una nueva ruleta, no requiere body |
+| PUT http://localhost:5000/api/v2/roulette/open | Petición privada para abrir una ruleta, require id en el body |
+| GET http://localhost:5000/api/v2/roulette | Petición privada para obtener todas las ruletas |
+
 
 ## Otros Endpoints
 | URL | Service |
 |-----|---------|
-| GET http://localhost:8080/api/v1/roulettes/{id} | Petición privada para obtener una ruleta por id |
-| DETELE http://localhost:8080/api/roulettes/{id} | Petición privada para eliminar una ruleta por id |
-| GET http://localhost:8080/api/v1/users | Petición privada para obtener todos los usuarios |
-| GET http://localhost:8080/api/v1/users/{id} | Petición privada para obtener un usuario por id |
+| GET http://localhost:5000/api/v2/roulette/{id} | Petición privada para obtener una ruleta por id |
+| GET http://localhost:5000/api/v2/user | Petición privada para obtener todos los usuarios |
+| GET http://localhost:5000/api/v2/user/{id} | Petición privada para obtener un usuario por id |
 
 <a name="Folder"></a>
 ## Folder Structure
 ```
-├── build.sh
-├── docker-compose.yml
-├── haproxy
-│   └── haproxy.cfg
-├── README.md
-└── RouletteAPI
-    ├── appsettings.Development.json
-    ├── appsettings.json
-    ├── Controllers
-    │   ├── RoulettesController.cs
-    │   └── UserController.cs
-    ├── Data
-    │   ├── RouletteContext.cs
-    │   ├── RouletteRepository.cs
-    │   ├── UserContext.cs
-    │   └── UserRepository.cs
-    ├── Dockerfile
-    ├── Helpers
-    │   ├── AppException.cs
-    │   ├── AppSettings.cs
-    │   ├── AutoMapperProfile.cs
-    │   ├── BetHandler.cs
-    │   ├── JwtHandler.cs
-    │   ├── PasswordHandler.cs
-    │   ├── RouletteHandler.cs
-    │   └── UserHandler.cs
-    ├── Interfaces
-    │   ├── IRouletteRepository.cs
-    │   └── IUserRepository.cs
-    ├── Models
-    │   ├── AuthenticateModel.cs
-    │   ├── BetRoulette.cs
-    │   ├── Entities
-    │   │   ├── Roulette.cs
-    │   │   └── User.cs
-    │   ├── RegisterModel.cs
-    │   ├── Settings.cs
-    │   └── UserModel.cs
-    ├── obj
-    ├── ├── ...
-    ├── Program.cs
-    ├── Properties
-    │   └── launchSettings.json
-    ├── RouletteApi.csproj
-    └── Startup.cs
+├── appsettings.Development.json
+├── appsettings.json
+├── Controllers
+│   ├── AuthController.cs
+│   ├── BetController.cs
+│   ├── RouletteController.cs
+│   └── UserController.cs
+├── Dockerfile
+├── Helpers
+│   ├── AppSettings.cs
+│   ├── AuthHelper.cs
+│   ├── AutoMapperProfile.cs
+│   ├── JwtHelper.cs
+│   ├── RouletteHelper.cs
+│   ├── StartupHelper.cs
+│   └── UserHelper.cs
+├── Interfaces
+│   ├── IAuthService.cs
+│   ├── IBetService.cs
+│   ├── IRouletteRepository.cs
+│   ├── IRouletteService.cs
+│   ├── IUserRepository.cs
+│   └── IUserService.cs
+├── Models
+│   ├── AuthenticateModel.cs
+│   ├── BetMessageModel.cs
+│   ├── BetModel.cs
+│   ├── CloseOpenModel.cs
+│   ├── Entities
+│   │   ├── BetRoulette.cs
+│   │   ├── Roulette.cs
+│   │   └── User.cs
+│   ├── MakeBetMessageModel.cs
+│   ├── RegisterModel.cs
+│   └── Settings.cs
+├── obj
+│   ├── ...
+├── Program.cs
+├── Properties
+│   └── launchSettings.json
+├── Repositories
+│   ├── RouletteContext.cs
+│   ├── RouletteRepository.cs
+│   ├── UserContext.cs
+│   └── UserRepository.cs
+├── RouletteApi.csproj
+├── Services
+│   ├── AuthService.cs
+│   ├── BetService.cs
+│   ├── RouletteService.cs
+│   └── UserService.cs
+└── Startup.cs
 
 ```
 
@@ -95,16 +108,23 @@ git clone https://github.com/vargas88hugo/roulette.git
 
 <a name="Usage"></a>
 ## Usage
-Para preparar el proyecto en Docker se puede utilizar el bash script en linux. Si desea correrlo localmente hay un branch configurado.
+Hay un entorno local y otro dockerizado. Para correr el programa sigua cualquiera de estos comandos en Linux/Windows una vez que clone el repositorio en el fichero actual:
+
+### Local
 ```bash
-cd roulette
-./build.sh
+cd roulette/local/RouletteApi/
+dotnet run
+```
+
+### Docker
+```
+cd roulette/docker
+docker-compose up --build
 ```
 
 <a name="TODO"></a>
 ## TODO
-* Implementar servicios para desacoplar los repositorios.
 * Implementar una mejor arquitectura como DDD.
-* Hay algunas respuestas y errores que aún deben ser manejados.
-* Configuración de master-slave en la base de datos.
+* Se deben configurar diferentes status de código a las respuestas de errores.
+* Configuración de master-slave en la base de datos y posible CQRS.
 * Persistencia del cache en el Load Balancer.
